@@ -1,6 +1,6 @@
 # Intro Chat App
 
-A simple chat application built to practice React Js and SASS.
+A chat application built to practice React Js and SASS.
 
 # What I Learned
 
