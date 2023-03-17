@@ -195,6 +195,7 @@ function Chats() {
         isSelected={isSelected}
         avatar={userChatData.userInfo.photoURL}
         ltsMsg={userChatData.userInfo.ltsMsg}
+        time={userChatData.userInfo.time}
         displayName={userChatData.userInfo.displayName}
         photoIncluded={userChatData.userInfo.photoIncluded}
       />

@@ -84,9 +84,8 @@ function UserChat(props) {
 
   return (
     <div
-      className={`user-chat ${props.isSelected && "selected"} ${
-        !props.isRead && "new"
-      } `}
+      className={`user-chat ${props.isSelected ? "selected" : ""} 
+	  			${!props.isRead ? "new" : ""} `}
       onClick={handleClickUserChat}
       id={props.id}
     >
@@ -97,7 +96,10 @@ function UserChat(props) {
       )}
 
       <div className="text">
-        <span className="name">{props.displayName}</span>
+        <div className="upper">
+          <span className="name">{props.displayName}</span>
+          <span className="receive-time">{props.time}</span>
+        </div>
         <div className="ltsMsg">
           {props.photoIncluded && (
             <FaCamera
