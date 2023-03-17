@@ -4,6 +4,7 @@ import { AuthContext } from "../App";
 import { db } from "../firebase-config";
 import data from "../messageData";
 import UserChat from "./UserChat";
+import { FaSearch } from "react-icons/fa";
 
 function Search() {
   const [searched, setSearched] = React.useState([]);
@@ -53,6 +54,17 @@ function Search() {
     <div className="search">
       {/* <form onSubmit={searchAccount}> */}
       <form>
+        <FaSearch
+          style={{
+            height: ".9rem",
+            width: ".9rem",
+            position: "absolute",
+            fill: "var(--spr-light-clr)",
+            top: "0.65rem",
+            bottom: "0.65rem",
+            left: "1rem",
+          }}
+        />
         <input
           type="text"
           name="name"
