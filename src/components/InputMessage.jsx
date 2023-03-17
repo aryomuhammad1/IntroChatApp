@@ -86,7 +86,10 @@ function InputMessage({ attachedPicture, setAttachedPicture }) {
     // }
 
     let time = new Date();
-    time = `${time.getHours()}.${time.getMinutes()}`;
+    let hours = time.getHours();
+    let minutes = `${time.getMinutes()}`;
+    time = `${hours}.${minutes.length === 1 ? "0" : ""}${minutes}`;
+
     messageObj = {
       message: newMessage,
       userId: currentUser.uid,
@@ -143,6 +146,7 @@ function InputMessage({ attachedPicture, setAttachedPicture }) {
             ltsMsg: newMessage,
             photoIncluded: downloadedUrl ? true : false,
             isRead: false,
+            time: time,
             uid: currentUser.uid,
           },
           date: serverTimestamp(),
@@ -159,6 +163,7 @@ function InputMessage({ attachedPicture, setAttachedPicture }) {
           ltsMsg: newMessage,
           photoIncluded: downloadedUrl ? true : false,
           isRead: true,
+          time: time,
         },
       },
       { merge: true }
@@ -171,6 +176,7 @@ function InputMessage({ attachedPicture, setAttachedPicture }) {
           ltsMsg: newMessage,
           photoIncluded: downloadedUrl ? true : false,
           isRead: false,
+          time: time,
         },
       },
       { merge: true }
