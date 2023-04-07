@@ -448,6 +448,15 @@ body {
         }
       }
 
+      .error-text {
+        display: hidden;
+
+        &.isError {
+          display: block;
+          color: red;
+        }
+      }
+
       button {
         padding: 1.2em 0.4em;
         border: none;

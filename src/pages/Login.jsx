@@ -16,6 +16,7 @@ function Login() {
     email: "",
     password: "",
   });
+  const [error, setError] = React.useState({});
 
   const navigate = useNavigate();
 
@@ -55,7 +56,10 @@ function Login() {
       );
       navigate("/");
     } catch (error) {
-      console.log("error login ", error.message);
+      if (error.code === "auth/wrong-password") {
+        setError({ code: `${error.code}`, message: "password is invalid!" });
+        console.log("error login ", error.message);
+      }
     }
   }
 
@@ -79,6 +83,9 @@ function Login() {
             value={formLogin.password}
             onChange={handleInputChanges}
           />
+          <p className={`error-text ${error.code ? "isError" : ""}`}>
+            {error && error.message}
+          </p>
           <button>Sign In</button>
         </form>
         <p>
