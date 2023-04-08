@@ -1,57 +1,23 @@
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
-import { getDownloadURL, ref } from "firebase/storage";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import React from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import { AuthContext } from "../App";
-import { db, storage } from "../firebase-config";
+import { db } from "../firebase-config";
 import { SelectedUserContext } from "../pages/Home";
 import { FaCamera } from "react-icons/fa";
-// import { ChatsContext } from "./Chats";
 
 function UserChat(props) {
-  const [downloadedPhoto, setDownloadedPhoto] = React.useState(null);
   const { currentUser } = React.useContext(AuthContext);
   const { selectedUser, setSelectedUser } =
     React.useContext(SelectedUserContext);
-  //   const { chats, setChats } = React.useContext(ChatsContext);
   const { searched, setSearched } = props;
-  //   console.log("selectedUser : ", selectedUser);
-
-  //   selectedUser berisi data user lengkap {displayName, photoURL, uid}
-
-  //   React.useEffect(() => {
-  // async function downloadAvatar() {
-  //   if (props.avatar) {
-  //     let urlDownload;
-  //     const check = localStorage.getItem(`${props.avatar}`);
-  //     if (check) {
-  //       urlDownload = JSON.parse(check);
-  //       console.log("urlDownload from local", urlDownload);
-  //     } else {
-  //       const gsReference = ref(
-  //         storage,
-  //         `gs://intro-chat-app-9a8c3.appspot.com/${props.avatar}`
-  //       );
-  //       urlDownload = await getDownloadURL(gsReference);
-  //       console.log("urlDownload from database", urlDownload);
-  //       localStorage.setItem(`${props.avatar}`, JSON.stringify(urlDownload));
-  //     }
-  //     setDownloadedPhoto(urlDownload);
-  //   }
-  // }
-  // downloadAvatar();
-  //   }, [props.avatar]);
-
-  //   console.log("photoURL : ", downloadedPhoto);
 
   async function handleClickUserChat(e) {
-    // [REVISI] AMBIL DATA DARI CHATS CONTEXT, BUKAN DARI FIRESTORE
-    // [REVISI 2] AMBIL DATA LANGSUNG DARI PROPS, GAPERLU NYARI DI CHATS
+    // Ambil data userChats dari props
     const selectedUserId = e.target.closest(".user-chat").id;
-    console.log("selectedUserId : ", selectedUserId);
-    // If userChat tidak ada (pertama kali klik)
+
+    // Jika userChat baru ditambahkan dari search
     if (searched) {
-      console.log("searched");
       setSearched([]);
       await setDoc(
         doc(db, `userChats/${currentUser.uid}/chatInfo/${selectedUserId}`),
@@ -67,6 +33,7 @@ function UserChat(props) {
         { merge: true }
       );
     }
+
     if (!searched) {
       await setDoc(
         doc(db, `userChats/${currentUser.uid}/chatInfo/${selectedUserId}`),
@@ -77,7 +44,6 @@ function UserChat(props) {
         },
         { merge: true }
       );
-      console.log("isRead : true");
     }
     setSelectedUser(selectedUserId);
   }

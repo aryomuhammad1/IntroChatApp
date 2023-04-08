@@ -1,14 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth, db } from "../firebase-config";
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { auth } from "../firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 function Login() {
@@ -58,7 +50,6 @@ function Login() {
     } catch (error) {
       if (error.code === "auth/wrong-password") {
         setError({ code: `${error.code}`, message: "password is invalid!" });
-        console.log("error login ", error.message);
       }
     }
   }

@@ -1,11 +1,8 @@
-// Externals
 import { onAuthStateChanged } from "firebase/auth";
 import React from "react";
 import { useNavigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { auth } from "./firebase-config";
-
-// Components
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,35 +10,29 @@ import Register from "./pages/Register";
 export const AuthContext = React.createContext(null);
 
 function App() {
-  // ===Hooks===
   const [currentUser, setCurrentUser] = React.useState();
-  //   console.log("currentUser after set: ", currentUser);
 
   const navigate = useNavigate();
 
-  //   onAuhStateChanged tidak digunakan untuk login
   React.useEffect(() => {
-    // cek localstorage
+    // cek user token pada localstorage
     const cek = localStorage.getItem("currentUser");
-    console.log("CEKKK : ", JSON.parse(cek));
-    // if ada token
+    // Jika ada token
     // setState
     if (cek) {
       setCurrentUser(JSON.parse(cek));
       navigate("/");
       return;
     }
-    // if tidak ada :
-    console.log("useEffect");
+    // Jika tidak ada, ambil token dari onAuthStateChanged,
+    // kemudian set token di localStorage
     const unsub = onAuthStateChanged(auth, (user) => {
-      console.log("USER TOKEN : ", user);
       if (user) {
         localStorage.setItem("currentUser", JSON.stringify(user));
         setCurrentUser(user);
       }
     });
     return () => {
-      console.log("cleaning");
       unsub();
     };
   }, []);

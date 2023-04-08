@@ -1,4 +1,3 @@
-// Externals
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../firebase-config";
@@ -11,22 +10,11 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadString,
-} from "firebase/storage";
-import jonSnow from "../jon-snow.jpg";
-
-// Components
-import { MdAddPhotoAlternate } from "react-icons/md";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { BsPersonCircle } from "react-icons/bs";
 import { AuthContext } from "../App";
 
 function Register(props) {
-  console.log("currentUser from registrasi : ", props.currentUser);
-  // ===State===
   const [formRegis, setFormRegis] = React.useState({
     displayName: "",
     email: "",
@@ -34,17 +22,13 @@ function Register(props) {
   });
   const [selectedAvatar, setSelectedAvatar] = React.useState(null);
 
-  // ===Hooks===
   const navigate = useNavigate();
   const { setCurrentUser } = React.useContext(AuthContext);
 
-  // ===Functions===
   async function handleInputFile(e) {
     const file = e.target.files;
-    console.log("Inside handleInputFile", file);
     try {
       if (window.File && window.FileReader && window.FileList && window.Blob) {
-        console.log(file[0].type.match("image"));
         if (!file[0].type.match("image"))
           throw new Error({ message: "file is not image" });
 
@@ -52,12 +36,10 @@ function Register(props) {
 
         picReader.addEventListener("load", (e) => {
           const picFile = e.target;
-          console.log("picFile : ", picFile);
           const picObject = {
             photoURL: file[0].name,
             message: picFile.result,
           };
-          console.log("picObjet : ", picObject);
           setSelectedAvatar({
             ...picObject,
           });
@@ -66,9 +48,7 @@ function Register(props) {
         picReader.readAsDataURL(file[0]);
         return;
       }
-    } catch (error) {
-      console.log(error.message);
-    }
+    } catch (error) {}
   }
 
   async function handleInputChanges(e) {
@@ -82,9 +62,7 @@ function Register(props) {
           [inputName]: inputValue,
         };
       });
-    } catch (error) {
-      console.log(error.message);
-    }
+    } catch (error) {}
   }
 
   async function formValidation(obj) {
@@ -100,7 +78,6 @@ function Register(props) {
         where("displayName", "==", `${obj.displayName}`)
       )
     );
-    console.log("usersSnapshot.docs : ", usersSnapshot.docs);
     if (usersSnapshot.docs.length > 0)
       return { status: false, message: "Display name is already used!" };
 
@@ -133,18 +110,14 @@ function Register(props) {
           `gs://intro-chat-app-9a8c3.appspot.com/${selectedAvatar.photoURL}`
         );
         downloadedUrl = await getDownloadURL(gsReference);
-        console.log("downloadedUrl : ", downloadedUrl);
       }
 
       await updateProfile(userCredential.user, {
         displayName: formRegis.displayName,
         photoURL: downloadedUrl || null,
       });
-      console.log("updateProfile Success!");
 
       setCurrentUser(auth.currentUser);
-
-      console.log("setCurrentUser Success!");
 
       const userObj = {
         ...formRegis,
@@ -152,8 +125,6 @@ function Register(props) {
       };
 
       await setDoc(doc(db, `users`, `${userCredential.user.uid}`), userObj);
-
-      console.log("user baru berhasil disimpan");
 
       setFormRegis({
         displayName: "",
@@ -163,9 +134,7 @@ function Register(props) {
       });
 
       navigate("/");
-    } catch (error) {
-      console.log("error regis ", error.message);
-    }
+    } catch (error) {}
   }
 
   // ===JSX===

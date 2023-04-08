@@ -11,7 +11,6 @@ function AttachedPicture({ attachedPicture, setAttachedPicture }) {
             height: "1.5rem",
             width: "1.5rem",
             cursor: "pointer",
-            // fill: "var(--spr-light-clr)",
             fill: "var(--dark-clr)",
           }}
         />

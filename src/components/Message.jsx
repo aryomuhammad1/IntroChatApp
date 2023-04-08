@@ -1,5 +1,4 @@
 import React from "react";
-import starkFamily from "../stark-family.jpeg";
 
 function Message(props) {
   return (

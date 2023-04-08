@@ -1,8 +1,7 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import React from "react";
 import { AuthContext } from "../App";
 import { db } from "../firebase-config";
-import data from "../messageData";
 import UserChat from "./UserChat";
 import { FaSearch } from "react-icons/fa";
 
@@ -19,7 +18,6 @@ function Search() {
       return;
     }
     if (keyword === currentUser.uid) {
-      console.log("keyword == uid");
       return;
     }
 
@@ -27,15 +25,11 @@ function Search() {
     snapshot.forEach((doc) => {
       const userData = doc.data();
       userData.uid = doc.id;
-      console.log("userData Search : ", userData);
       const displayName = userData.displayName.toLowerCase();
       displayName.includes(keyword) && foundedUser.push(userData);
     });
-    console.log("foundedUser : ", foundedUser);
     setSearched(foundedUser);
   }
-
-  console.log("searched : ", searched);
 
   const userSearchedElements = searched.map((user, index) => {
     return (
@@ -52,7 +46,6 @@ function Search() {
 
   return (
     <div className="search">
-      {/* <form onSubmit={searchAccount}> */}
       <form>
         <FaSearch
           style={{
@@ -71,8 +64,6 @@ function Search() {
           placeholder="Find a user"
           onChange={searchAccount}
           autoComplete="off"
-          //   value={searched}
-          //   onChange={handleSearchChange}
         />
       </form>
       {userSearchedElements}
