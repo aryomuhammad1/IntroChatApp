@@ -8,8 +8,7 @@ import { FaCamera } from "react-icons/fa";
 
 function UserChat(props) {
   const { currentUser } = React.useContext(AuthContext);
-  const { selectedUser, setSelectedUser } =
-    React.useContext(SelectedUserContext);
+  const { setSelectedUser } = React.useContext(SelectedUserContext);
   const { searched, setSearched } = props;
 
   async function handleClickUserChat(e) {
